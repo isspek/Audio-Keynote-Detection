@@ -1,6 +1,6 @@
 '''
     File name: key-detection.py
-    Author: Ipek B.
+    Author: isspek
     Date created: 22/05/2016
     Date last modified: 
     Python Version: 2.7.6
@@ -12,18 +12,23 @@ import scipy.io.wavfile as wav
 
 
 """
-Reading the audio files as .wav format, and storing in an array.
+Reading the audio files as .wav format, and storing their rate and data in an array.
 """
 
-audioFiles=[]
+class Audio:
+    def __init__(self, rate, data):
+        self.rate=rate
+        self.data=data
 
+def create_audio_objs(path):
+    rate, data= wav.read(path,0)
+    return Audio(rate,data)
 
-def read_wave(path):
-    wav.read(path,0)
-    
+audioArray=[]
 
 for dirname, dirnames, filenames in os.walk('./mirex_key/audio'):
     for filename in sorted(filenames):
-        audioFiles.append(read_wave(os.path.join(dirname, filename)));
+        audioArray.append(create_audio_objs(os.path.join(dirname, filename)));
 
-
+for i in range(len(audioArray)):
+    print audioArray[i].data
