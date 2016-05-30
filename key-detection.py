@@ -5,7 +5,6 @@ import os
 from pylab import plot, show, figure, imshow
 
 
-
 def extract_HPCP(_filename):
     
     # initialization
@@ -42,19 +41,17 @@ def extract_HPCP(_filename):
     essentia.run(loader)
     return pool['hpcp vector']
 
-paths=[]
 
-for dirname, dirnames, filenames in os.walk('./mirex_key/audio'):
+ground_truth=[]
+features=[]
+
+for dirname, dirnames, filenames in os.walk('./mirex_key'):
     for filename in sorted(filenames):
-        paths.append(os.path.join(dirname, filename))
-
-features=extract_HPCP(paths[18])
-imshow(features,aspect = 'auto')
-show()
-
-
-
-
+        if dirname=='./mirex_key/audio':
+            features.append(extract_HPCP(os.path.join(dirname, filename)))
+        else:
+            file = open(os.path.join(dirname, filename), 'r')
+            ground_truth.append(file.read())
 
 
 
